@@ -1,12 +1,13 @@
 require './character'
 
 class Brave < Character
+
   SPECIAL_ATTACK_CONSTANT = 1.5
 
   def attack(monster)
     attack_type = decision_attack_type
     damage = calculate_damage(target: monster, attack_type: attack_type)
-    cause_damage(target: monster, damage: damage)
+    cause_damage(target: monster,damage: damage)
 
     attack_message(attack_type: attack_type)
 
@@ -27,6 +28,7 @@ class Brave < Character
   def calculate_damage(**params)
     target = params[:target]
     attack_type = params[:attack_type]
+
     if attack_type == "special_attack"
       calculate_special_attack - target.defense
     else
@@ -44,4 +46,5 @@ class Brave < Character
   def calculate_special_attack
     @offense * SPECIAL_ATTACK_CONSTANT
   end
+
 end

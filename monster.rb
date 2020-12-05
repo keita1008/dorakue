@@ -1,8 +1,9 @@
 require './character'
 
 class Monster < Character
+
   POWER_UP_RATE = 1.5
-  CALC_HALF_HP  = 0.5
+  CALC_HALF_HP = 0.5
 
   def initialize(**params)
     super(
@@ -11,9 +12,7 @@ class Monster < Character
         offense: params[:offense],
         defense: params[:defense]
     )
-    # モンスターが変身したかどうかを判定するフラグ
     @transform_flag = false
-    # 変身する際の閾値（トリガー）を計算
     @trigger_of_transform = params[:hp] * CALC_HALF_HP
   end
 
@@ -23,24 +22,15 @@ class Monster < Character
       transform
     end
 
+    attack_message
+
     damage = calculate_damage(brave)
     cause_damage(target: brave, damage: damage)
-
-    attack_message
 
     damage_message(target: brave, damage: damage)
   end
 
   private
-
-  def transform
-    transform_name = "ドラゴン"
-
-    transform_message(origin_name: @name, transform_name: transform_name)
-
-    @offense *= POWER_UP_RATE
-    @name = transform_name
-  end
 
   def calculate_damage(target)
     @offense - target.defense
@@ -52,4 +42,12 @@ class Monster < Character
     target.hp -= damage
     target.hp = 0 if target.hp < 0
   end
+
+  def transform
+    transform_name = "ドラゴン"
+    transform_message(origin_name: @name, transform_name: transform_name)
+    @offense *= POWER_UP_RATE
+    @name = transform_name
+  end
+
 end
